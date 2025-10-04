@@ -3,7 +3,7 @@
 targets::tar_source("R")
 
 targets::tar_option_set(
-    packages = c("gmailr", "dplyr")  # packages needed in your targets
+    packages = c("gmailr", "dplyr", "yaml", "stringr", "httr2", "jsonlite", "httr", "openai", "purrr")  # packages needed in your targets
 )
 
 # Define pipeline targets for literature search workflow
