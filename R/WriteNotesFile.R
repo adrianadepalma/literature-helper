@@ -17,7 +17,7 @@ WriteNotesFile <- function(paper, dir_out) {
 
   if(file.exists(file.path(dir_out, file_name))) {
     warning(paste("File already exists:", file_name))
-    warning(paste("Adding Sys.date to the file name - double check that this is not a duplication"))
+    warning(paste("Adding Sys.Date to the file name - double check that this is not a duplication"))
     file_name <- paste0(
       Sys.Date(), "-",
       file_name
