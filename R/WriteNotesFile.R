@@ -34,6 +34,8 @@ WriteNotesFile <- function(paper, dir_out) {
     "BibTeX:\n```bibtex\n", bib, "\n```
 ",
     "\n\n\n",
+    "Extracts:\n\n",
+    "\n\n\n",
     "Notes/paragraphs:\n\n"
   )
   writeLines(content, file_out)
