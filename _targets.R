@@ -1,4 +1,3 @@
-
 # Load R scripts from the R/ directory
 targets::tar_source("R")
 
@@ -8,6 +7,12 @@ targets::tar_option_set(
 
 # Define pipeline targets for literature search workflow
 list(
+
+  # duration
+  targets::tar_target(
+    name = duration_days,
+    command = 7
+  ),
 
   # Target: my email address
   targets::tar_target(
@@ -26,10 +31,10 @@ list(
     name = processed_ids,
     command = ExtractProcessedDOI(dir_in = dir_papers)
   ),
-  # Target: last week's date (YYYY-MM-DD)
+  # Target: start date to search from (YYYY-MM-DD)
   targets::tar_target(
-    name = last_week,
-    command = format(Sys.Date() - 7, "%Y-%m-%d")
+    name = search_period,
+    command = format(Sys.Date() - duration_days, "%Y-%m-%d")
   ),
 
   # Target: workstrands YAML file (as file dependency)
@@ -71,7 +76,7 @@ list(
   # Step 2: Fetch papers from CrossRef
   targets::tar_target(
     name = crossref_papers,
-    command = FetchCrossrefPapers(crossref_query, 10, last_week),
+    command = FetchCrossrefPapers(crossref_query, 10, search_period),
     pattern = map(crossref_query),
     iteration = "list"
   ),
@@ -195,7 +200,7 @@ list(
     name = send_email,
     command = {
       # make sure we're using the gmail credentials
-      gmailr::gm_auth_configure(path = list.files(pattern = "client_secret"))
+      gmailr::gm_auth_configure(path = yaml::read_yaml("config.yaml")$gmail_token)
       gmailr::gm_auth(cache = ".httr-oauth")
       SendPapersEmail(email_content, my_email)
     }
