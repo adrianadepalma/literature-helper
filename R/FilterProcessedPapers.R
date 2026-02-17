@@ -8,6 +8,5 @@
 FilterProcessedPapers <- function(papers, processed_ids) {
   papers |> 
     dplyr::filter(!doi %in% processed_ids) |>
-    dplyr::filter(!stringr::str_detect(title, "^Figure \\d+ from:")) |>
-    dplyr::filter(!stringr::str_detect(title, "^Supplementary material \\d+ from:"))
+    dplyr::filter(!stringr::str_detect(title, "^(Figure \\d+ from:|Supplementary material \\d+ from:)"))
 }
